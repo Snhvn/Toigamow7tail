@@ -25,7 +25,7 @@ jobs:
         sudo chmod 666 /dev/kvm
         echo "Đang Tải Xuống"
         echo "Hãy Đợi 4 phút để tải xong"
-        sudo wget -O /tmp/w7x64.img https://bit.ly/akuhnetw7X64 &>/dev/null &
+        sudo wget -O /mnt/w7x64.img https://bit.ly/akuhnetw7X64 &>/dev/null &
         while ps axg | grep -vw grep | grep -w wget > /dev/null; do sleep 1; done
         sudo wget -O driver.iso https://computernewb.com/isos/driver/virtio-win-0.1.240.iso &>/dev/null &
         while ps axg | grep -vw grep | grep -w wget > /dev/null; do sleep 1; done
@@ -39,4 +39,4 @@ jobs:
         echo "RDP IP :" tailscale ip -4
         echo "Username: akuh "
         echo "Password: Akuh.Net "
-        sudo qemu-system-x86_64 -machine usb=on -device usb-tablet -cpu host -smp 4 -m 12G -vga qxl -net nic,netdev=n0 -netdev user,id=n0,hostfwd=tcp::3388-:3389 -boot c -enable-kvm -drive file=/tmp/w7x64.img -drive file=driver.iso,media=cdrom  -vnc :0 -object rng-random,id=rng0,filename=/dev/urandom -device virtio-rng-pci,rng=rng0
+        sudo qemu-system-x86_64 -machine usb=on -device usb-tablet -cpu host -smp 4 -m 12G -vga qxl -net nic,netdev=n0 -netdev user,id=n0,hostfwd=tcp::3388-:3389 -boot c -enable-kvm -drive file=/mnt/w7x64.img -drive file=driver.iso,media=cdrom  -vnc :0 -object rng-random,id=rng0,filename=/dev/urandom -device virtio-rng-pci,rng=rng0
