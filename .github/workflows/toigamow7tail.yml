@@ -11,9 +11,7 @@ jobs:
      - name: Cài Tailscale 
        run: |
         curl -fsSL https://tailscale.com/install.sh | sh
-        sudo tailscale up  
-        sudo iptables -t nat -A PREROUTING -p tcp --dport 3388 -j DNAT --to-destination <tailscale ip -4>:3388
-        sudo iptables-save > /etc/iptables/rules.v4
+        sudo tailscale up --accept-routes -4 -advertise-routes=3388
      - name: Cài Win7 Và Chạy
        run: |
         sudo chmod 666 /dev/kvm
