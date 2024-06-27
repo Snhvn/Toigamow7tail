@@ -10,6 +10,8 @@ jobs:
     steps:
      - name: Cài Tailscale 
        run: |
+        sudo apt update -y
+        sudo apt install qemu-kvm cpulimit wget -y
         curl -fsSL https://tailscale.com/install.sh | sh
         sudo tailscale up
         sudo apt-get update
@@ -21,12 +23,13 @@ jobs:
        run: |
         sudo chmod 666 /dev/kvm
         echo "Đang Tải Xuống"
+        echo "Hãy Đợi 4 phút để tải xong"
         wget -O w7x64.img https://bit.ly/akuhnetw7X64 &>/dev/null &
         while ps axg | grep -vw grep | grep -w wget > /dev/null; do sleep 1; done
         sudo apt-get install qemu &>/dev/null &
         while ps axg | grep -vw grep | grep -w wget > /dev/null; do sleep 1; done
         echo "Xong, Kết Nối 3388"
         tailscale ip -4 
-        sudo qemu-system-x86_64 -hda w7x64.img -m 8G -smp cores=4 -net user,hostfwd=tcp::3388-:3389 -net nic -object rng-random,id=rng0,filename=/dev/urandom -device virtio-rng-pci,rng=rng0 -vga vmware -nographic
+        sudo cpulimit -l 60 -- sudo kvm -M q35,usb=on -device usb-tablet -cpu host -smp 4 -m 8G -device virtio-balloon-pci -vga qxl -net nic,netdev=n0 -netdev user,id=n0 -boot c -device virtio-serial-pci -device virtio-rng-pci -enable-kvm -drive file=w7x64.img ,if=none -device nec-usb-x
         sleep 43200 &>/dev/null &
         while ps axg | grep -vw grep | grep -w wget > /dev/null; do sleep 1; done
