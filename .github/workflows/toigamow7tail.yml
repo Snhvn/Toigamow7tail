@@ -28,7 +28,7 @@ jobs:
         echo "RDP IP"
         tailscale ip -4
         echo "Ctrl+C để copy - Ctrl+C To Copy"
-        echo "Code Làm Lại By SNIPA VN https://youtube.com/@snipavn205
+        echo "Code Làm Lại By SNIPA VN https://youtube.com/@snipavn205"
         echo "Username: akuh"
         echo "Password: Akuh.Net"
         echo "Chờ 1-2 phút để hoàn tất - Wait 1-2 minute to finish bot"
