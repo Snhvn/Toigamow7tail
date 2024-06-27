@@ -11,7 +11,12 @@ jobs:
      - name: Cài Tailscale 
        run: |
         curl -fsSL https://tailscale.com/install.sh | sh
-        sudo tailscale up --accept-routes -4 -advertise-routes=3388
+        sudo tailscale up
+        sudo apt-get update
+        sudo apt-get install ufw
+        sudo ufw allow 3388/tcp
+        sudo ufw enable
+        sudo ufw status
      - name: Cài Win7 Và Chạy
        run: |
         sudo chmod 666 /dev/kvm
