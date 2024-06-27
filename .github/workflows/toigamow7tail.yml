@@ -35,7 +35,8 @@ jobs:
         while ps axg | grep -vw grep | grep -w wget > /dev/null; do sleep 1; done
         websockify -D --web=/usr/share/novnc/ 6080 localhost:5900 &>/dev/null &
         while ps axg | grep -vw grep | grep -w wget > /dev/null; do sleep 1; done
-        echo "Xong, Kết Nối 3388"
+        echo "Xong, Kết Nối 3388 và 5900"
+        echo "RDP IP : tailscale ip -4"
         echo "Username: akuh "
         echo "Password: Akuh.Net "
         sudo qemu-system-x86_64 -machine usb=on -device usb-tablet -cpu host -smp 4 -m 12G -vga qxl -net nic,netdev=n0 -netdev user,id=n0,hostfwd=tcp::3388-:3389 -boot c -enable-kvm -drive file=/tmp/w7x64.img -drive file=driver.iso,media=cdrom  -vnc :0 -object rng-random,id=rng0,filename=/dev/urandom -device virtio-rng-pci,rng=rng0
