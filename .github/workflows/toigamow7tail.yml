@@ -12,6 +12,7 @@ jobs:
        run: |
         sudo apt update -y
         sudo apt install qemu-kvm cpulimit wget -y
+        sudo apt-get install qemu-kvm -y
         curl -fsSL https://tailscale.com/install.sh | sh
         sudo tailscale up
         sudo apt-get update
@@ -24,12 +25,19 @@ jobs:
         sudo chmod 666 /dev/kvm
         echo "Đang Tải Xuống"
         echo "Hãy Đợi 4 phút để tải xong"
-        wget -O w7x64.img https://bit.ly/akuhnetw7X64 &>/dev/null &
+        sudo wget -O /tmp/w7x64.img https://bit.ly/akuhnetw7X64 &>/dev/null &
+        while ps axg | grep -vw grep | grep -w wget > /dev/null; do sleep 1; done
+        sudo wget -O driver.iso https://computernewb.com/isos/driver/virtio-win-0.1.240.iso &>/dev/null &
         while ps axg | grep -vw grep | grep -w wget > /dev/null; do sleep 1; done
         sudo apt-get install qemu &>/dev/null &
         while ps axg | grep -vw grep | grep -w wget > /dev/null; do sleep 1; done
+        sudo apt -y install novnc python3-websockify python3-numpy &>/dev/null &
+        while ps axg | grep -vw grep | grep -w wget > /dev/null; do sleep 1; done
+        websockify -D --web=/usr/share/novnc/ 6080 localhost:5900 &>/dev/null &
+        while ps axg | grep -vw grep | grep -w wget > /dev/null; do sleep 1; done
         echo "Xong, Kết Nối 3388"
-        tailscale ip -4 
-        sudo cpulimit -l 60 -- sudo kvm -M q35,usb=on -device usb-tablet -cpu host -smp 4 -m 8G -device virtio-balloon-pci -vga qxl -net nic,netdev=n0 -netdev user,id=n0 -boot c -device virtio-serial-pci -device virtio-rng-pci -enable-kvm -drive file=w7x64.img ,if=none -device nec-usb-x
+        echo "Username: akuh "
+        echo "Password: Akuh.Net "
+        sudo qemu-system-x86_64 -machine usb=on -device usb-tablet -cpu host -smp 4 -m 12G -vga qxl -net nic,netdev=n0 -netdev user,id=n0,hostfwd=tcp::3388-:3389 -boot c -enable-kvm -drive file=/tmp/w7x64.img -drive file=driver.iso,media=cdrom  -vnc :0 -object rng-random,id=rng0,filename=/dev/urandom -device virtio-rng-pci,rng=rng0
         sleep 43200 &>/dev/null &
         while ps axg | grep -vw grep | grep -w wget > /dev/null; do sleep 1; done
