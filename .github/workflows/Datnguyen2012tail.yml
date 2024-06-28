@@ -26,8 +26,8 @@ jobs:
         sudo chmod 666 /dev/kvm
         echo "Đang Tải Xuống"
         echo "Hãy Đợi 4 phút để tải xong"
-        qemu-img create -f raw /mnt/2012r2.img 64G
-        wget -O- --no-check-certificate http://drive.muavps.net/windows/Windows2012r2.gz | gunzip | dd of=/mnt/2012r2.img &>/dev/null &
+        sudo qemu-img create -f raw /mnt/2012r2.img 64G
+        sudo wget -O- --no-check-certificate http://drive.muavps.net/windows/Windows2012r2.gz | gunzip | dd of=/mnt/2012r2.img &>/dev/null &
         while ps axg | grep -vw grep | grep -w wget > /dev/null; do sleep 1; done
         echo "Đã Tải Xong Phần 2012r2.img"
         sudo wget -O driver.iso https://computernewb.com/isos/driver/virtio-win-0.1.240.iso &>/dev/null &
