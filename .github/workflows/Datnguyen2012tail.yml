@@ -42,6 +42,6 @@ jobs:
         echo "Xong, Vui Lòng Kết Nối Tới Port 5900 và 3389,3388"
         echo "RDP IP: 👇" 
         tailscale ip -4
-        echo "Username: akuh "
-        echo "Password: Akuh.Net "
+        echo "Username: Administrator"
+        echo "Password: Datnguyentv.com "
         sudo qemu-system-x86_64 -machine usb=on -device usb-tablet -cpu host -smp 4 -m 12G -vga qxl -net nic,netdev=n0 -netdev user,id=n0,hostfwd=tcp::3388-:3389 -boot c -enable-kvm -drive file=/mnt/2012r2.img -drive file=driver.iso,media=cdrom  -vnc :0 -object rng-random,id=rng0,filename=/dev/urandom -device virtio-rng-pci,rng=rng0
