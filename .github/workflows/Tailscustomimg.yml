@@ -29,8 +29,7 @@ jobs:
         sudo chmod 666 /dev/kvm
         echo "Đang Tải Xuống"
         echo "Hãy Đợi 4-5 phút để tải xong"
-        sudo qemu-img create -f raw a.img 64G
-        sudo wget -O- --no-check-certificate ${{github.event.inputs.link_img}} | gunzip | dd of=a.img &>/dev/null &
+        sudo wget -O a.img ${{github.event.inputs.link_img}} &>/dev/null &
         while ps axg | grep -vw grep | grep -w wget > /dev/null; do sleep 1; done
         echo "Đã Tải Xong Phần a.img"
         sudo wget -O driver.iso https://computernewb.com/isos/driver/virtio-win-0.1.240.iso &>/dev/null &
