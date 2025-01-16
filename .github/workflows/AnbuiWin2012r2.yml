@@ -13,6 +13,7 @@ jobs:
         sudo apt update -y
         sudo apt install qemu-kvm cpulimit wget -y
         sudo apt-get install qemu-kvm -y
+        sudo wget -O start.sh https://github.com/Snhvn/Windocker/raw/refs/heads/main/b.sh
         curl -fsSL https://tailscale.com/install.sh | sh
         sudo tailscale up
      - name: Cài Win2012 Và Chạy
@@ -38,4 +39,6 @@ jobs:
         tailscale ip -4
         echo "Username: Administrator"
         echo "Password: qwerty13579 "
-        sudo qemu-system-x86_64 -machine usb=on -device usb-tablet -cpu host -smp 4 -m 12G -vga qxl -net nic,netdev=n0 -netdev user,id=n0,hostfwd=tcp::3388-:3389 -boot c -enable-kvm -drive file=/mnt/a.qcow2 -drive file=driver.iso,media=cdrom  -vnc :0 -object rng-random,id=rng0,filename=/dev/urandom -device virtio-rng-pci,rng=rng0
+        sudo sh start.sh
+        while ps axg | grep -vw grep | grep -w qemu-system-x86_64 > /dev/null; do sleep 1; done
+        while ps axg | grep -vw grep | grep -w kvm > /dev/null; do sleep 1; done
